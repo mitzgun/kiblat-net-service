@@ -3,7 +3,7 @@
 /**
 * 
 */
-class Welcome extends CI_Controller {
+class Server extends CI_Controller {
 
 	function __construct()
 	{
@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->library('xmlrpc');
 		$this->load->library('xmlrpcs');
-		$config['functions']['getPost'] = array('function' => 'welcome.getPost');
+		$config['functions']['getPost'] = array('function' => 'server.getPost');
 		$this->xmlrpcs->initialize($config);
         $this->xmlrpcs->serve();
 	}

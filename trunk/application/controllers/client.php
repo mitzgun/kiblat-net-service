@@ -11,7 +11,7 @@ class client extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('xmlrpc');
-        $server_url = site_url('welcome');
+        $server_url = site_url('server');
         $this->xmlrpc->server($server_url, 80);
     }
 
