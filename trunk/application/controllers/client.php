@@ -17,7 +17,7 @@ class client extends CI_Controller {
 
 
     function index(){
-    	$this->xmlrpc->method('getPost');
+    	$this->xmlrpc->method('getPostbyIdTag');
     	//$this->xmlrpc->set_debug(TRUE);
     	      if (!$this->xmlrpc->send_request()) {
             echo $this->xmlrpc->display_error();
