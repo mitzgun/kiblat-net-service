@@ -34,7 +34,7 @@ class post extends CI_Model {
         p1.post_status='publish'
         AND p1.post_type='post'
     ORDER BY 
-        p1.post_date DESC LIMIT 10";
+        p1.post_date DESC LIMIT 1";
         $post = $this->db->query($query);
         return $post->result_array();
     }

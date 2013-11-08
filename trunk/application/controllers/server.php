@@ -10,12 +10,14 @@ class Server extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this -> load -> model('post');
+		$this -> load -> library('xmlrpc');
+		$this -> load -> library('xmlrpcs');
+		$this -> load -> library('simple_html_dom');
 	}
 
 	public function index() {
-		$this -> load -> library('xmlrpc');
-		$this -> load -> library('xmlrpcs');
-		$config['functions']['getPost'] = array('function' => 'server.getPost');
+
+		$config['functions']['GetPost'] = array('function' => 'server.getPost');
 		$config['functions']['getPopularTag'] = array('function' => 'server.getPopularTag');
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
 		$this -> xmlrpcs -> initialize($config);
@@ -33,11 +35,16 @@ class Server extends CI_Controller {
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
-	
+
 	function getPostbyIdTag() {
-		//$parameters = $request -> output_parameters();
-		//$id=$parameters['0'];
 		$data = $this -> post -> postbyidtag(21);
+		foreach ($data as $key => $d) {
+			$html = new Simple_html_dom();
+			$html -> load($d['post_content']);
+			$content = $html -> plaintext;
+			$data[$key]['post_content'] = str_replace("\\", '/', $content);
+		}
+
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
