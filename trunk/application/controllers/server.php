@@ -33,6 +33,8 @@ class Server extends CI_Controller {
 			$content = $html -> plaintext;
 			$data[$key]['post_content'] = str_replace("\\", '/', $content);
 		}
+		
+		//
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
