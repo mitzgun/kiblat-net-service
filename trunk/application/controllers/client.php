@@ -17,15 +17,15 @@ class client extends CI_Controller {
 	}
 
 	function index() {
-		$this -> xmlrpc -> method('GetPost');
+		$this -> xmlrpc -> method('tes');
 		//$this->xmlrpc->set_debug(TRUE);
 		if (!$this -> xmlrpc -> send_request()) {
 			echo $this -> xmlrpc -> display_error();
 
 		} else {
-			//echo '<pre>';
+			echo '<pre>';
 			print_r($this -> xmlrpc -> display_response());
-			//echo '</pre>';
+			echo '</pre>';
 		}
 	}
 
