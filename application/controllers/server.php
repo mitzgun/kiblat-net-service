@@ -20,15 +20,28 @@ class Server extends CI_Controller {
 		$config['functions']['GetPost'] = array('function' => 'server.getPost');
 		$config['functions']['getPopularTag'] = array('function' => 'server.getPopularTag');
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
+		$config['functions']['tes'] = array('function' => 'server.tes');
 		$this -> xmlrpcs -> initialize($config);
 		$this -> xmlrpcs -> serve();
 	}
 
 	function getPost() {
 		$data = $this -> post -> selectPost();
+		foreach ($data as $key => $d) {
+			$html = new Simple_html_dom();
+			$html -> load($d['post_content']);
+			$content = $html -> plaintext;
+			$data[$key]['post_content'] = str_replace("\\", '/', $content);
+		}
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
+	
+	function tes() {
+		
+		return $this -> xmlrpc -> send_response('tes');
+	}
+	
 
 	function getPopularTag() {
 		$data = $this -> post -> populartag();
