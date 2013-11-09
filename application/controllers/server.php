@@ -17,9 +17,10 @@ class Server extends CI_Controller {
 
 	public function index() {
 
-		$config['functions']['GetPost'] = array('function' => 'server.getPost');
+		$config['functions']['getPost'] = array('function' => 'server.getPost');
 		$config['functions']['getPopularTag'] = array('function' => 'server.getPopularTag');
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
+		$config['functions']['getPopularPost'] = array('function' => 'server.getPopularPost');
 		$config['functions']['tes'] = array('function' => 'server.tes');
 		$this -> xmlrpcs -> initialize($config);
 		$this -> xmlrpcs -> serve();
@@ -31,10 +32,27 @@ class Server extends CI_Controller {
 			$html = new Simple_html_dom();
 			$html -> load($d['post_content']);
 			$content = $html -> plaintext;
+			$url_img= $this -> post -> getimagebyidpost($d['ID']);
 			$data[$key]['post_content'] = str_replace("\\", '/', $content);
+			$data[$key]['img'] = $url_img;
+			
 		}
+		//print_r($data);
 		
-		//
+		$response = array(json_encode($data));
+		return $this -> xmlrpc -> send_response($response);
+	}
+	
+	function getPopularPost() {
+		$data = $this -> post -> popularpost();
+		foreach ($data as $key => $d) {
+			$html = new Simple_html_dom();
+			$html -> load($d['post_content']);
+			$content = $html -> plaintext;
+			$url_img= $this -> post -> getimagebyidpost($d['ID']);
+			$data[$key]['post_content'] = str_replace("\\", '/', $content);;
+			$data[$key]['img'] = $url_img;
+		}
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
