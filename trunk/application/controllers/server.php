@@ -22,8 +22,28 @@ class Server extends CI_Controller {
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
 		$config['functions']['getPopularPost'] = array('function' => 'server.getPopularPost');
 		$config['functions']['tes'] = array('function' => 'server.tes');
+
+		$config['functions']['beritaterkini'] = array('function' => 'server.beritaterkini');
+
 		$this -> xmlrpcs -> initialize($config);
 		$this -> xmlrpcs -> serve();
+	}
+
+	function beritaterkini($request) {
+		$parameters = $request -> output_parameters();
+		$data = $this -> post -> beritaterkini($parameters['0']);
+		foreach ($data as $key => $d) {
+			$html = new Simple_html_dom();
+			$html -> load($d['content']);
+			$content = $html -> plaintext;
+			$url_img = $this -> post -> getimagebyidpost($d['ID']);
+			$data[$key]['content'] = substr(str_replace("\\", '/', $content), 0,50) ;
+			$data[$key]['img'] = $url_img;
+		}
+		//print_r($data);
+
+		$response = array(json_encode($data));
+		return $this -> xmlrpc -> send_response($response);
 	}
 
 	function getPost() {
@@ -32,36 +52,36 @@ class Server extends CI_Controller {
 			$html = new Simple_html_dom();
 			$html -> load($d['post_content']);
 			$content = $html -> plaintext;
-			$url_img= $this -> post -> getimagebyidpost($d['ID']);
+			$url_img = $this -> post -> getimagebyidpost($d['ID']);
 			$data[$key]['post_content'] = str_replace("\\", '/', $content);
 			$data[$key]['img'] = $url_img;
-			
+
 		}
 		//print_r($data);
-		
+
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
-	
+
 	function getPopularPost() {
 		$data = $this -> post -> popularpost();
 		foreach ($data as $key => $d) {
 			$html = new Simple_html_dom();
 			$html -> load($d['post_content']);
 			$content = $html -> plaintext;
-			$url_img= $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['post_content'] = str_replace("\\", '/', $content);;
+			$url_img = $this -> post -> getimagebyidpost($d['ID']);
+			$data[$key]['post_content'] = str_replace("\\", '/', $content);
+			;
 			$data[$key]['img'] = $url_img;
 		}
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
-	
+
 	function tes() {
-		
+
 		return $this -> xmlrpc -> send_response('tes');
 	}
-	
 
 	function getPopularTag() {
 		$data = $this -> post -> populartag();

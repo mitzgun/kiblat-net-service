@@ -17,8 +17,10 @@ class client extends CI_Controller {
 	}
 
 	function index() {
-		$this -> xmlrpc -> method('getPost');
+		$this -> xmlrpc -> method('beritaterkini');
 		//$this->xmlrpc->set_debug(TRUE);
+		$request = array('31699');
+		$this -> xmlrpc -> request($request);
 		if (!$this -> xmlrpc -> send_request()) {
 			echo $this -> xmlrpc -> display_error();
 

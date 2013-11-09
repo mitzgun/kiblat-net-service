@@ -9,34 +9,21 @@ if (!defined('BASEPATH'))
 
 class post extends CI_Model {
 
+	function beritaterkini($id='100000000000000000000000')
+	{
+		
+		$query="select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, '' as tax, 0 as count
+		from wp_posts	
+		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_posts.ID<".$id."
+		order by wp_posts.ID desc
+		limit 10";
+		
+		$post = $this -> db -> query($query);
+		return $post -> result_array();
+	}
+
+
 	function selectPost() {
-		/*
-		 $query = "
-		 SELECT
-		 p1.*,
-		 wm2.meta_value
-		 FROM
-		 wp_posts p1
-		 LEFT JOIN
-		 wp_postmeta wm1
-		 ON (
-		 wm1.post_id = p1.id
-		 AND wm1.meta_value IS NOT NULL
-		 AND wm1.meta_key = '_thumbnail_id'
-		 )
-		 LEFT JOIN
-		 wp_postmeta wm2
-		 ON (
-		 wm1.meta_value = wm2.post_id
-		 AND wm2.meta_key = '_wp_attached_file'
-		 AND wm2.meta_value IS NOT NULL
-		 )
-		 WHERE
-		 p1.post_status='publish'
-		 AND p1.post_type='post'
-		 ORDER BY
-		 p1.post_date DESC LIMIT 1";
-		 */
 		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_content, wp_posts.post_title, wp_posts.guid, wp_terms.name, CONVERT(wp_postmeta.meta_value,UNSIGNED INTEGER) as count
 		from wp_posts
 		join wp_term_relationships on wp_posts.ID = wp_term_relationships.object_id
@@ -50,6 +37,23 @@ class post extends CI_Model {
 		$post = $this -> db -> query($query);
 		return $post -> result_array();
 	}
+	
+	function selectPostMore($lastId=0) {
+		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_content, wp_posts.post_title, wp_posts.guid, wp_terms.name, CONVERT(wp_postmeta.meta_value,UNSIGNED INTEGER) as count
+		from wp_posts
+		join wp_term_relationships on wp_posts.ID = wp_term_relationships.object_id
+		join wp_term_taxonomy on wp_term_relationships.term_taxonomy_id= wp_term_taxonomy.term_taxonomy_id
+		join wp_terms on wp_term_taxonomy.term_id=wp_terms.term_id
+		join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
+		where wp_posts.post_status='publish' and wp_postmeta.meta_key='wpb_post_views_count' and wp_posts.post_type='post' and WEEKOFYEAR(NOW())=WEEKOFYEAR(wp_posts.post_date)
+		GROUP BY wp_posts.ID
+		order by  wp_posts.post_date desc
+		limit 10";
+		$post = $this -> db -> query($query);
+		return $post -> result_array();
+	}
+	
+	
 
 	function populartag() {
 		$query = '
