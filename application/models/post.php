@@ -42,7 +42,7 @@ class post extends CI_Model {
 		JOIN wp_term_relationships on wp_posts.ID = wp_term_relationships.object_id
 		JOIN wp_term_taxonomy on wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
 		Join wp_terms on wp_term_taxonomy.term_id = wp_terms.term_id
-		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_terms.term_id=2
+		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_terms.term_id=".$id."
 		order by wp_posts.ID desc
 		limit 10";
 
