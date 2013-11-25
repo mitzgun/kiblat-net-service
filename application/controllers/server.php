@@ -64,7 +64,7 @@ class Server extends CI_Controller {
 	
 	function beritabyidkategori($request) {
 		$parameters = $request -> output_parameters();
-		$data = $this -> post -> beritabyidkategori($parameters[0]);
+		$data = $this -> post -> beritabyidkategori($parameters[0],$parameters[1]);
 			foreach ($data as $key => $d) {
 			$html = new Simple_html_dom();
 			$html -> load($d['content']);

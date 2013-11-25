@@ -19,7 +19,7 @@ class client extends CI_Controller {
 	function index() {
 		$this -> xmlrpc -> method('beritabyidkategori');
 		//$this->xmlrpc->set_debug(TRUE);
-		$request = array('713');
+		$request = array('1936','27466');
 		$this -> xmlrpc -> request($request);
 		if (!$this -> xmlrpc -> send_request()) {
 			echo $this -> xmlrpc -> display_error();

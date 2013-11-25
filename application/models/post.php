@@ -35,14 +35,15 @@ class post extends CI_Model {
 		return $post -> result_array();
 	}
 
-	function beritabyidkategori($id = '0') {
+	function beritabyidkategori($id_kategori='0',$id = '100000000000000000000000') {
 
 		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, wp_terms.name as tax, '' as 'count'
 		from wp_posts
 		JOIN wp_term_relationships on wp_posts.ID = wp_term_relationships.object_id
 		JOIN wp_term_taxonomy on wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
 		Join wp_terms on wp_term_taxonomy.term_id = wp_terms.term_id
-		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_terms.term_id=".$id."
+		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_terms.term_id=".$id_kategori."
+		and wp_posts.post_type='post' and wp_posts.ID<" . $id . "
 		order by wp_posts.ID desc
 		limit 10";
 
