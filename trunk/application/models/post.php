@@ -144,5 +144,17 @@ class post extends CI_Model {
 
 	}
 
+function search($param="", $id = '100000000000000000000000') {
+
+		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, '' as tax, 0 as count
+		from wp_posts	
+		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_posts.post_content LIKE '%".$param."%' 
+		order by wp_posts.ID desc
+		limit 10";
+
+		$post = $this -> db -> query($query);
+		return $post -> result_array();
+	}
+
 }
 ?>

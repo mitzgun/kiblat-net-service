@@ -22,7 +22,7 @@ class Server extends CI_Controller {
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
 		$config['functions']['getPopularPost'] = array('function' => 'server.getPopularPost');
 		$config['functions']['tes'] = array('function' => 'server.tes');
-
+		$config['functions']['search'] = array('function' => 'server.search' );
 		$config['functions']['beritaterkini'] = array('function' => 'server.beritaterkini');
 		$config['functions']['beritapopuler'] = array('function' => 'server.beritapopuler');
 		$config['functions']['beritabyidkategori'] = array('function' => 'server.beritabyidkategori');
@@ -131,6 +131,24 @@ class Server extends CI_Controller {
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
+
+	function search($request) {
+		$parameters = $request -> output_parameters();
+		$data = $this -> post -> search($parameters['0']);
+		foreach ($data as $key => $d) {
+			$html = new Simple_html_dom();
+			$html -> load($d['content']);
+			$content = $html -> plaintext;
+			$url_img = $this -> post -> getimagebyidpost($d['ID']);
+			$data[$key]['content'] = str_replace("\\", '/', $content);
+			$data[$key]['img'] = $url_img;
+		}
+		//print_r($data);
+
+		$response = array(json_encode($data));
+		return $this -> xmlrpc -> send_response($response);
+	}
+
 
 }
 
