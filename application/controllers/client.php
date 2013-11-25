@@ -31,5 +31,20 @@ class client extends CI_Controller {
 		}
 	}
 
+	public function search()
+	{
+		$this->xmlrpc->method('search');
+		$request = array('bom');
+		$this -> xmlrpc -> request($request);
+		//$this->xmlrpc->set_debug(TRUE);
+	     if (!$this->xmlrpc->send_request()) {
+            echo $this->xmlrpc->display_error();
+        } else {
+            echo '<pre>';
+            print_r($this->xmlrpc->display_response());
+            echo '</pre>';
+        }
+	}
+
 }
 ?>
