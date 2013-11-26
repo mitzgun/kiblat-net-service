@@ -22,7 +22,7 @@ class Server extends CI_Controller {
 		$config['functions']['getPostbyIdTag'] = array('function' => 'server.getPostbyIdTag');
 		$config['functions']['getPopularPost'] = array('function' => 'server.getPopularPost');
 		$config['functions']['tes'] = array('function' => 'server.tes');
-		$config['functions']['search'] = array('function' => 'server.search' );
+		$config['functions']['search'] = array('function' => 'server.search');
 		$config['functions']['beritaterkini'] = array('function' => 'server.beritaterkini');
 		$config['functions']['beritapopuler'] = array('function' => 'server.beritapopuler');
 		$config['functions']['beritabyidkategori'] = array('function' => 'server.beritabyidkategori');
@@ -49,8 +49,8 @@ class Server extends CI_Controller {
 
 	function beritapopuler($request) {
 		$parameters = $request -> output_parameters();
-		$data = $this -> post -> beritaterkini($parameters['0']);
-			foreach ($data as $key => $d) {
+		$data = $this -> post -> beritapopuler();
+		foreach ($data as $key => $d) {
 			$html = new Simple_html_dom();
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
@@ -61,11 +61,11 @@ class Server extends CI_Controller {
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
-	
+
 	function beritabyidkategori($request) {
 		$parameters = $request -> output_parameters();
-		$data = $this -> post -> beritabyidkategori($parameters[0],$parameters[1]);
-			foreach ($data as $key => $d) {
+		$data = $this -> post -> beritabyidkategori($parameters[0], $parameters[1]);
+		foreach ($data as $key => $d) {
 			$html = new Simple_html_dom();
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
@@ -101,7 +101,8 @@ class Server extends CI_Controller {
 			$html -> load($d['post_content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['post_content'] = str_replace("\\", '/', $content); ;
+			$data[$key]['post_content'] = str_replace("\\", '/', $content);
+			;
 			$data[$key]['img'] = $url_img;
 		}
 		$response = array(json_encode($data));
@@ -148,7 +149,6 @@ class Server extends CI_Controller {
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 	}
-
 
 }
 
