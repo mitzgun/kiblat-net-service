@@ -38,7 +38,7 @@ class Server extends CI_Controller {
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['content'] = substr(str_replace("\\", '/', $content), 0, 50);
+			$data[$key]['content'] = str_replace("\\", '/', $content);
 			$data[$key]['img'] = $url_img;
 		}
 		//print_r($data);
@@ -55,7 +55,7 @@ class Server extends CI_Controller {
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['content'] = substr(str_replace("\\", '/', $content), 0, 50);
+			$data[$key]['content'] = str_replace("\\", '/', $content);
 			$data[$key]['img'] = $url_img;
 		}
 		$response = array(json_encode($data));
@@ -70,7 +70,7 @@ class Server extends CI_Controller {
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['content'] = substr(str_replace("\\", '/', $content), 0, 50);
+			$data[$key]['content'] = str_replace("\\", '/', $content);
 			$data[$key]['img'] = $url_img;
 		}
 		$response = array(json_encode($data));
