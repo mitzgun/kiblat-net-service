@@ -21,15 +21,23 @@ class post extends CI_Model {
 		return $post -> result_array();
 	}
 
-	function beritapopuler($id = '100000000000000000000000') {
+	function beritapopuler() {
 
+		/*$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, '' as tax, wp_postmeta.meta_value as 'count'
+		from wp_posts	
+		join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
+		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_postmeta.meta_key='wpb_post_views_count' 
+		and WEEK (" . date('Y-m-d') . ") = WEEK(wp_posts.post_date) - 1 AND YEAR(" . date('Y-m-d') . ") = YEAR(wp_posts.post_date)
+		order by count desc
+		limit 10";
+		*/
 		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, '' as tax, wp_postmeta.meta_value as 'count'
 		from wp_posts	
 		join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
 		where wp_posts.post_status='publish' and wp_posts.post_type='post' and wp_postmeta.meta_key='wpb_post_views_count' 
-		and WEEK (" . date('Y-m-d') . ") = WEEK(current_date) - 1 AND YEAR(" . date('Y-m-d') . ") = YEAR(current_date)
+		and WEEK ('2013-10-1') = WEEK(wp_posts.post_date) - 1 AND YEAR('2013-11-1') = YEAR(wp_posts.post_date)
 		order by count desc
-		limit 10";
+		limit 20";
 
 		$post = $this -> db -> query($query);
 		return $post -> result_array();
