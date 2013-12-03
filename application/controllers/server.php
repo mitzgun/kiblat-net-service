@@ -26,6 +26,7 @@ class Server extends CI_Controller {
 		$config['functions']['beritaterkini'] = array('function' => 'server.beritaterkini');
 		$config['functions']['beritapopuler'] = array('function' => 'server.beritapopuler');
 		$config['functions']['beritabyidkategori'] = array('function' => 'server.beritabyidkategori');
+		$config['functions']['ads'] = array('function' => 'server.ads');
 		$this -> xmlrpcs -> initialize($config);
 		$this -> xmlrpcs -> serve();
 	}
@@ -46,6 +47,24 @@ class Server extends CI_Controller {
 
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
+	}
+
+	function ads($request) {
+		$this -> load -> helper('directory');
+		$this -> load -> helper('file');
+		$parameters = $request -> output_parameters();
+		$map = directory_map('./ads');
+		//$data['data'];
+		$size = 0;
+		foreach ($map as $key => $m) {
+			$data['data'][$key]['name'] = $m;
+			$data['data'][$key]['url'] = base_url() . 'ads/' . $m;
+			$size = $key;
+		}
+		$rand = rand(0, $size);
+		$response = array(json_encode($data['data'][$rand]));
+		//echo json_encode($data);
+		return $this -> xmlrpc -> send_response($data['data'][$rand]['url']);
 	}
 
 	function beritapopuler($request) {
