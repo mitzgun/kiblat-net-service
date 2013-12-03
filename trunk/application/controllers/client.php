@@ -17,7 +17,7 @@ class client extends CI_Controller {
 	}
 
 	function index() {
-		$this -> xmlrpc -> method('beritapopuler');
+		$this -> xmlrpc -> method('ads');
 		//$this->xmlrpc->set_debug(TRUE);
 		$request = array('1936','27466');
 		$this -> xmlrpc -> request($request);
