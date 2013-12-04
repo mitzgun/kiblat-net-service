@@ -152,7 +152,7 @@ class post extends CI_Model {
 
 	}
 
-function search($param="", $id = '100000000000000000000000') {
+function search($param="") {
 
 		$query = "select wp_posts.ID, wp_posts.post_date, wp_posts.post_title as title, wp_posts.post_content as content, wp_posts.guid, '' as tax, 0 as count
 		from wp_posts	
