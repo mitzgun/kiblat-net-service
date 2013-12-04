@@ -17,9 +17,9 @@ class client extends CI_Controller {
 	}
 
 	function index() {
-		$this -> xmlrpc -> method('ads');
+		$this -> xmlrpc -> method('search');
 		//$this->xmlrpc->set_debug(TRUE);
-		$request = array('1936','27466');
+		$request = array('bom');
 		$this -> xmlrpc -> request($request);
 		if (!$this -> xmlrpc -> send_request()) {
 			echo $this -> xmlrpc -> display_error();

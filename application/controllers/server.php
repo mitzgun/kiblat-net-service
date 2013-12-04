@@ -160,19 +160,21 @@ class Server extends CI_Controller {
 	function search($request) {
 		$parameters = $request -> output_parameters();
 		$data = $this -> post -> search($parameters['0']);
+		//$data = $this -> post -> search('bom');
 		foreach ($data as $key => $d) {
 			$html = new Simple_html_dom();
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			//$data[$key]['content'] = str_replace("\\", '/', $content);
-			$data[$key]['content'] = $d['post_content'];
+			$data[$key]['content'] = str_replace("\\", '/', $content);
+			//$data[$key]['content'] = $d['content'];
 			$data[$key]['img'] = $url_img;
 		}
 		//print_r($data);
 
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
+		//echo json_encode($data);
 	}
 
 }
