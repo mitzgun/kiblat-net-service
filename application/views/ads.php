@@ -17,7 +17,7 @@
 
 			</div>
 		</div>
-		<?php print_r($data);?>
+		<?php //print_r($data);?>
 		<div class="container">
 			<br>
 			<div class="container">
