@@ -26,7 +26,7 @@ class Server extends CI_Controller {
 		$config['functions']['beritaterkini'] = array('function' => 'server.beritaterkini');
 		$config['functions']['beritapopuler'] = array('function' => 'server.beritapopuler');
 		$config['functions']['beritabyidkategori'] = array('function' => 'server.beritabyidkategori');
-		$config['functions']['ads'] = array('function' => 'server.ads');
+		$config['functions']['ads'] = array('function' => 'server.ads2');
 		$this -> xmlrpcs -> initialize($config);
 		$this -> xmlrpcs -> serve();
 	}
@@ -49,22 +49,18 @@ class Server extends CI_Controller {
 		return $this -> xmlrpc -> send_response($response);
 	}
 
-	function ads($request) {
-		$this -> load -> helper('directory');
-		$this -> load -> helper('file');
-		$parameters = $request -> output_parameters();
-		$map = directory_map('./ads');
-		//$data['data'];
+	function ads2(){
+		$data = $this->db->get('ads')->result_array();
 		$size = 0;
-		foreach ($map as $key => $m) {
-			$data['data'][$key]['name'] = $m;
-			$data['data'][$key]['url'] = base_url() . 'ads/' . $m;
+		foreach ($data as $key => $m) {
+			$data['data'][$key]['url'] = $m['url'];
+			$data['data'][$key]['image'] = base_url() . $m['image'];
 			$size = $key;
 		}
 		$rand = rand(0, $size);
 		$response = array(json_encode($data['data'][$rand]));
 		//echo json_encode($data);
-		return $this -> xmlrpc -> send_response($data['data'][$rand]['url']);
+		return $this -> xmlrpc -> send_response($response);
 	}
 
 	function beritapopuler($request) {
@@ -166,12 +162,11 @@ class Server extends CI_Controller {
 			$html -> load($d['content']);
 			$content = $html -> plaintext;
 			$url_img = $this -> post -> getimagebyidpost($d['ID']);
-			$data[$key]['content'] = str_replace("\\", '/', $content);
-			//$data[$key]['content'] = $d['content'];
+			//$data[$key]['content'] = str_replace("\\", '/', $content);
+			$data[$key]['content'] = $d['content'];
 			$data[$key]['img'] = $url_img;
 		}
 		//print_r($data);
-
 		$response = array(json_encode($data));
 		return $this -> xmlrpc -> send_response($response);
 		//echo json_encode($data);

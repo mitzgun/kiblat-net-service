@@ -17,7 +17,7 @@
 
 			</div>
 		</div>
-		<?php //print_r($data);?>
+		<?php //Sprint_r($data);?>
 		<div class="container">
 			<br>
 			<div class="container">
@@ -31,24 +31,28 @@
 					<thead>
 						<tr>
 							<th>No.</th>
-							<th>Iklan</th>
+							<th>Link Iklan</th>
 							<th>Image</th>
 							<th>Action</th>
 							
 						</tr>
 					</thead>
 					<tbody>
+					<?php if($data == null){
+						echo'<div class="alert alert-error">data masih kosong</div>';
+					} else {
+					?>
+					
 					<?php foreach ($data as $key => $d) { ?>
 						<tr>
 							<td><?php echo $key+1 ?></td>
-							<td><?php echo $d['name'] ?></td>
-							<td><img height="100" width="200" src="<?php echo $d['url'] ?>"/></td>
-							<td><a href="<?php echo base_url().'index.php/ads/hapus_ads?url=ads/'.$d['name'] ?>" onclick="return confirm('Anda yakin ?');"> <i class="icon-trash"></i> Hapus Iklan</a></td>
+							<td><?php echo $d['url'] ?></td>
+							<td><img height="100" width="200" src="<?php echo base_url().$d['image'] ?>"/></td>
+							<td><a href="<?php echo site_url('ads').'/hapus_ads?url='.$d['image'] ?>" onclick="return confirm('Anda yakin ?');"> <i class="icon-trash"></i> Hapus Iklan</a></td>
 							
 						</tr>
 					<?php }?>
-						
-						
+						<?php }?>
 					</tbody>
 				</table>
 				<div class="pagination pagination-centered" style="height: 5px"></div>

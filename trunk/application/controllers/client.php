@@ -17,9 +17,9 @@ class client extends CI_Controller {
 	}
 
 	function index() {
-		$this -> xmlrpc -> method('search');
+		$this -> xmlrpc -> method('beritaterkini');
 		//$this->xmlrpc->set_debug(TRUE);
-		$request = array('bom');
+		$request = array('100000');
 		$this -> xmlrpc -> request($request);
 		if (!$this -> xmlrpc -> send_request()) {
 			echo $this -> xmlrpc -> display_error();
@@ -29,6 +29,19 @@ class client extends CI_Controller {
 			print_r($this -> xmlrpc -> display_response());
 			//echo '</pre>';
 		}
+	}
+
+	function ads()
+	{
+		$this->xmlrpc->method('ads');
+		//$this->xmlrpc->set_debug(TRUE);
+		if (!$this->xmlrpc->send_request()) {
+            $this->xmlrpc->display_error();
+        } else {
+            echo '<pre>';
+            print_r($this->xmlrpc->display_response());
+            echo '</pre>';
+        }
 	}
 
 	public function search()
